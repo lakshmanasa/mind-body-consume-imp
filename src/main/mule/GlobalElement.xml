@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<http:request-config
+		name="HTTP_Request_configuration"
+		doc:name="HTTP Request configuration"
+		doc:id="5b0c1cb1-d1ff-4674-a9ea-523d70a58755"
+		basePath="#[vars.basepath]">
+		<http:request-connection host="#[vars.host]"
+			port="#[vars.port]" protocol="HTTPS">
+			<tls:context >
+				<tls:trust-store path="client-truststore.jks" password="mulesoft" type="jks" insecure="true" />
+			</tls:context>
+		</http:request-connection>
+	</http:request-config>
+
+	<jms:config name="JMS_Config" doc:name="JMS Config"
+		doc:id="5ab28430-9556-4556-86f2-d05c118343ad">
+		<jms:active-mq-connection username="${jms.user}"
+			password="${jms.password}">
+			<jms:factory-configuration
+				brokerUrl="tcp://localhost:61616" />
+		</jms:active-mq-connection>
+	</jms:config>
+	<configuration-properties
+		doc:name="Configuration properties"
+		doc:id="f7726410-62bb-44c2-900f-f73b07cd5dc2" file="${env}.properties" />
+	
+</mule>

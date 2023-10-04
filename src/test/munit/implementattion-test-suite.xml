@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="implementattion-test-suite.xml" />
+	<munit:test name="implementattion-test-suite-consume-mindFlowTest" doc:id="176a148f-3d9e-4047-a96e-fedf3938f8af" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="0a9d3f33-5d82-4d8a-a5b8-3e64ef4f362d" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output application/json --- &#10;{&#10;  "eventId": "cbedafbb-ffc1-452e-9468-7513e9c69573",&#10;  "eventType": "2",&#10;  "eventData": [&#10;    {&#10;      "internalId": "a082w00000j9dg5AAA"&#10;    }&#10;  ],&#10;  "source": "salesforce",&#10;  "targets": "database",&#10;  "dataType": "object",&#10;  "timeStamp": "06-April-2023-11:27:03"&#10;}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="48911e05-971d-4574-b4a3-db7449b41e7f" >
+				<munit:payload value='#[output application/json --- {&#10;  "eventId": "cbedafbb-ffc1-452e-9468-7513e9c69573",&#10;  "eventType": "2",&#10;  "eventData": [&#10;    {&#10;      "internalId": "2"&#10;    }&#10;  ],&#10;  "source": "salesforce",&#10;  "targets": "database",&#10;  "dataType": "object",&#10;  "timeStamp": "06-April-2023-11:27:03"&#10;}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="405344c2-402e-4f25-9961-cdd2321138a4" name="consume-mindFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="b8df29e5-839f-481e-b9ac-5d46b6276ee2" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementattion-test-suite-consume-HTTP:BAD_GATEWAY" doc:id="5287d0dc-5fba-44c2-89b3-a5ae33b1b61b" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="6056d3c0-5503-4406-9e7b-a9b3d01ce051" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:BAD_GATEWAY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="b96dd31f-f7f6-491b-a54f-0c3fdd641bcb" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="c49d218b-2d10-4258-9ec2-bb114dc61bf6" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f0191bde-29fa-48b6-948e-f7ed4a8e1200" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="05e0e5f9-17e0-41a2-9284-73441b933d53" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="b2ec9443-01ce-4fc9-9327-6f8df3226965" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:BAD_REQUEST" doc:id="ae16078f-28c4-429b-b5f5-94d391de91f4" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="9c78f660-bcea-4efe-b61d-3582c2d9d127" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:BAD_REQUEST" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="833bf975-ce26-4b86-a7a4-50819828fb33" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="5d96a08d-895f-4408-88f2-a3ed719537b1" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="75110871-1789-4dd7-88b2-77c6759ab931" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="8045d70a-56ad-48dd-96f9-f4160f552cac" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="fe2c764b-7b5c-4e69-a449-858a3ff87c47" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:CLIENT_SECURITY" doc:id="d6960789-d7ec-4a9e-9c87-fd4e5ea0ee6f" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="e04d8fb3-fad1-4c99-a140-6fbdd922b037" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:CLIENT_SECURITY" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="8ce90996-5d63-425a-b011-bb5be106a68f" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="6acdaf43-8693-4f5f-8570-b6b98485bc78" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="23413f1b-a326-4b1f-a408-fe8613c80f87" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="1adc7bac-3caa-4651-b440-513f0336df35" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="18128f78-7dfd-4b0b-84f1-f49f03b51c9f" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:CONNECTIVITY" doc:id="a87b8b09-776f-477d-ad86-7eaac491adf4" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="308df95f-c990-4c79-9749-e6e7becb8d0b" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="1974fc66-7826-4e16-971d-29968f9fd26a" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="de64d44c-892c-4c71-bf1e-155bc34e6f0b" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="4d22b3ee-679b-4076-8879-a42de7825e73" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="cfe4a6b6-f4d6-4c7e-93e3-6f8e47b154fa" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1784f147-c449-4888-b054-b22471d7efea" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:FORBIDDEN" doc:id="4322c95c-40b3-4031-af26-9bdd89f999b1" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="85f0fee0-0c0a-425d-81e3-ba79e823e6e7" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:FORBIDDEN" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="d7ce32d2-9f2c-4f84-8ff3-d4027a9835d1" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="a8694b74-9748-4313-83ce-b5d7ee3d9aea" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="5b423747-fade-4c9d-a6c1-1b7ec0468c76" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="2256a479-c024-465b-99f7-a8bde5bff4e3" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1b92d380-5da7-4568-9004-938ca6e83a3d" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:METHOD_NOT_ALLOWED" doc:id="b13dbd47-6bfb-42fc-bd04-b22d7e411b60" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="7e43e216-9af3-4ca3-8194-a9e70191673a" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="711be016-ac70-43d6-beab-ca2d9806d3ae" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="20abb498-033f-4c6b-b8af-ac54c7228197" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="135cf661-febe-4eb9-8fce-ec0c37e21f16" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="d8089793-f32a-4f08-acf9-767d715d9851" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="d84701fe-5eac-48c3-92f1-e956250d477f" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:NOT_ACCEPTABLE" doc:id="064a5867-c606-44a8-8663-2964d8aad247" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="9b5859a8-7077-4d86-9a40-59643c254473" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="483c6013-769e-4db6-b445-ce6073d3d2f9" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="ae7827cf-edf5-4f24-b2cb-d563f7a1bb71" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="92f69502-58f7-4d76-a947-7e20a8bcf0b8" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="f3ac7618-cfc3-43cb-8b0a-c037c9c570e2" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="010504db-2bf1-4308-9852-7f2a60276cf6" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:NOT_FOUND" doc:id="67e4a2a3-d597-43ca-88f9-b00958f9ce2b" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="c0fbf3de-cd04-4cbb-b9f1-582d9c709cf6" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:NOT_FOUND" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="c292bc38-cd0a-4bf0-b85c-348cf2f7a89d" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="c25580d9-74d8-4e99-a06c-f00d5d55c153" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="1b8502ff-7190-4d59-977c-02c9c04fe6d7" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="a2fb793c-920b-412a-be40-d6d512d73d95" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="2d92e9c8-ac39-4f15-9204-d6aca3a9fe1b" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:PARSING" doc:id="3861fe88-d08a-413c-9b3d-9f616097c9a5" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="e8aa4c29-5706-49fd-a13b-bf30e4f8c0d6" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:PARSING" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="9da3a7dd-5040-4a22-a201-149c18bf591b" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="f392038c-e346-455d-b90b-ff6feaea71dd" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="3df16173-55c2-49ac-8195-d84a4f6dabb3" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="90e50e3b-aa7e-4ee7-a05f-e7f666550789" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="93b4a290-b109-46b0-b8fd-ca8e65a30811" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:RETRY_EXHAUSTED" doc:id="283f4131-3766-4ba7-a6dd-a11557b56a9b" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="6fcd44ed-b8d1-4af4-b658-a25315b0865a" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:RETRY_EXHAUSTED" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="e4fe335b-8f8f-402e-adb3-8a23060d1eed" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="d7c119af-ffb3-4b39-879b-d8d11b4d2ab3" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="52fb589b-711e-45c7-a54a-c0d4b6fb3941" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="9f2d98b3-83d7-4a34-b5d7-594c2fb57d36" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="4954c3dc-34ad-417c-a78c-3ad0fefbb358" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:SECURITY" doc:id="10e36ec6-909a-448f-980f-4950a8e9043f" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="32809ee9-eadb-4300-add2-8ce2da582200" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:SECURITY" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="fc927f70-d22c-4285-a09b-e58378637aea" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="dbc9eb25-5574-4bcf-83c8-520d777ac27e" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="4c1c79fe-8687-4dba-a28b-69ab3b92f33e" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="0f76060b-6ec1-4244-9926-43dd1df76564" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="0ec33b7d-6dd1-4962-8a6a-c0308d0a879a" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:SERVICE_UNAVAILABLE" doc:id="761708ac-bde9-4df0-84a4-9d65ae8befe8" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="fc0849ac-0c2e-455d-a472-ff7b774d2ce3" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:SERVICE_UNAVAILABLE" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="f7d6b34a-ffe8-45ef-814b-74cfe7819573" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="8613cb09-ea87-46a0-a9f6-7580ec898cd1" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0cb0eb6f-fc47-402d-9405-f1b0d375ac10" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="49655e81-449a-4a0c-8093-914bd28408cc" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="8458d2c8-5502-43c7-9820-f70723d9792b" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:TIMEOUT" doc:id="4585d49c-7b28-4368-880b-185c19f08d68" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b6ecf47b-04bc-41f2-a593-95aab4bb6519" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:TIMEOUT" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="427c4e47-172e-4c3e-bd51-971ee1c2aabe" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="a78c2147-01fa-40f2-b0b3-f60d28ff40c8" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d351a75b-3fe0-42bb-904b-a5e23135f4a5" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="52b5bbd6-0196-4801-a76e-d5f326edf612" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="407b02c2-35a1-48be-9351-0710e3cad1b0" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:TOO_MANY_REQUESTS" doc:id="65f9e9f4-f05d-40f9-9bd9-f187e485532b" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="3317a08e-e310-4834-ae00-d12273f23ca8" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:TOO_MANY_REQUESTS" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="7a73383a-8be5-41cb-aba7-203c93de6ef3" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="c74cd77e-42f6-4b5f-9859-be6dce6e0042" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d0ba4432-cb59-451d-bc35-ab1dd3330f6c" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="eaa8f6cb-fd47-442e-8e2f-982e3efeaabd" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="e3962cf8-d463-417b-8ee0-7fc8de989a78" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:UNAUTHORIZED" doc:id="8d0820c8-05a6-4772-96e9-60461e23d057" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="24ed757f-884f-456f-a268-60d7495f2325" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:UNAUTHORIZED" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="d28209ac-6c17-4f96-b056-381f5ad6e6b1" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="a9594867-38c8-4ef4-b157-e76a75e687c9" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="e914face-e452-4c03-acea-a9d9b47f66ac" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="287306e7-0e5e-4d7a-9008-cf2af0e1e51f" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="7eee00bf-8c64-49e6-900c-3de0cb723c8b" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:UNSUPPORTED_MEDIA_TYPE" doc:id="e60456ba-f947-4174-826f-0d9fb6281c59" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="c8f70fa1-966f-443d-bc4c-04068938381e" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="5287cb53-687f-4760-a519-22c1afe2e0f7" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="248900be-e2bc-49e5-9851-597b12049b6a" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="ea2866b8-c7ee-4c72-b556-31fcdde0d392" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="8ce2cdff-9774-4002-843e-db57ed3885b3" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="82331a64-f51c-4a21-ad4b-fd7be3bf074e" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-HTTP:INTERNAL_SERVER_ERROR" doc:id="0ffee843-b64e-4b30-a878-5d35e7c9ddbf" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="d52abe86-4b47-4011-b0f6-24c1b8e6c362" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:INTERNAL_SERVER_ERROR" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="b592f961-9b98-4a90-a93d-aba5576bd97a" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="81c25b2d-86a2-48d0-bc1c-780eac61f5c1" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="64e736e9-6076-43cf-8200-297654a2fce9" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="a160d9c2-56ef-4661-8774-cc9725687637" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="3d4c1718-213e-41ff-a501-8eafd34c648a" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-ANY" doc:id="18857152-8646-4941-acd1-c57318c15f5f" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="8565b73b-ffc2-4365-a758-4db8c0afa60d" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0adb8597-2c96-4564-ac48-02a7d4a2d351" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="ANY" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="d69a6a71-d35a-4150-8dd7-d8be400e75bf" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="10c0e1ad-572d-4089-98e6-709d831ef29b" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="48e7025f-1a38-45d5-9d15-ec3e168bd8a1" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="9891fbc5-1d0d-41c2-a1bb-99ff2ec239c8" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="e8686946-71b1-4a09-9a17-fffb87847ab6" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-JMS:CONNECTIVITY" doc:id="06c08c00-ccfd-48f0-90c4-ab160f7a2fa6" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="c031707e-1279-49b2-b759-42ca29a22737" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="115fea11-590a-4ba7-a5bb-f2567e428e76" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="JMS:CONNECTIVITY" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="f817a417-42b8-44be-a0d0-14aa81a3e521" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="f6503201-12fc-4779-b387-4b6877a51b45" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="cc78c4a8-ee62-4636-9db8-c96de9a80dcc" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="aec68339-a61b-4b87-b602-554ef490344a" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="3dcd2aef-ab61-4952-920b-0141146c95ae" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-JMS:DESTINATION_NOT_FOUND" doc:id="0cd393ef-2b30-455b-bec2-c4452894ef78" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b003123b-dac1-4fd1-8b06-2b7fe6e1cd6b" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="115fea11-590a-4ba7-a5bb-f2567e428e76" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="JMS:DESTINATION_NOT_FOUND" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="9cbe6669-936f-4945-b5cf-798d9ba296a8" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="2aec5578-2c45-4d8e-a291-4776a47a364f" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="8fc6772d-c613-48bd-b9b5-5aa0f65aba45" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="2224fa90-dcde-4fe1-aa3e-93c3c37a410f" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="5db381e7-8f76-4476-9670-1a86d9f7a2fd" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-JMS:ILLEGAL_BODY" doc:id="8807ace2-ff20-4423-9d48-0af3d584cd86" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ab8b744d-6edf-4061-bf37-3d336049f8d2" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="115fea11-590a-4ba7-a5bb-f2567e428e76" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="JMS:ILLEGAL_BODY" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="fad84235-9840-46ca-8ef2-5784fee8710e" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="c0bfd8b6-721a-41fb-89a2-f3c386865722" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="c7c83725-edc8-4237-90ad-97d3d870b5dd" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="22b61d01-d5ac-435d-9c04-f00855b39f3c" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="8942394b-32f4-49b1-b6c1-3ff9f1f4774c" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-JMS:PUBLISHING" doc:id="4df01660-0315-40f5-b014-52095ea1b42c" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="06f2bea3-db58-486a-a31a-9fab9d45c7a9" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="115fea11-590a-4ba7-a5bb-f2567e428e76" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="JMS:PUBLISHING" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="bf426f74-ab56-42e4-a88e-824ee626d711" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="0abf8db8-5b83-47a2-961d-d97d306c9810" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="ba238d5d-76e2-4503-8e21-8576f0dbd49d" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="a8417f3c-0aa3-404e-96ec-05ecef53acbb" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="202274af-ece8-4bfb-af54-90eeaa3bf9ac" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-JMS:RETRY_EXHAUSTED" doc:id="78dcc67e-7222-4c06-b7ee-999667b7bee6" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ac6da8e9-d4fc-43c7-80b6-00581a8d0c2f" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="115fea11-590a-4ba7-a5bb-f2567e428e76" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="JMS:RETRY_EXHAUSTED" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="70ba0b99-8fa2-46e6-b635-e6fe56edce34" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="0d867a39-e4cf-4e77-ac94-682f032fe135" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="852465e8-8f5a-48c0-93b1-e400508f0c8e" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="d9374008-cfb8-454a-8dad-ef88e0d74f91" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="64d51e07-f111-4b58-88cb-adb566dc018b" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+		<munit:test name="implementattion-test-suite-consume-JMS:SECURITY" doc:id="d392490c-5d80-4e42-aafe-750d3ac85695" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="24a405e2-b476-4e25-bc4f-a82c9bafb4c6" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="115fea11-590a-4ba7-a5bb-f2567e428e76" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="JMS:SECURITY" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="94a5ecd2-455c-43e7-bf80-e6b36ce8835f" >
+				<flow-ref doc:name="Flow-ref to consume-mindFlow" doc:id="77c536db-81b8-4d34-b702-93b055d697bc" name="consume-mindFlow" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b30fe62d-9a55-4020-a299-7fc51e86c246" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="3047daf3-f3bd-43ac-baed-01dec738ffda" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="23e3651c-b735-4cb6-a408-7f5cbfcd4bba" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	
+
+</mule>

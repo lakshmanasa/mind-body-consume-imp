@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+	<sub-flow name="common-HttpRequestSub_Flow" doc:id="f056db48-31c2-4eba-a307-3c6b144fb9cb" >
+		<http:request method="#[vars.method]" doc:name="Request" doc:id="0adb8597-2c96-4564-ac48-02a7d4a2d351" config-ref="HTTP_Request_configuration" path="#[vars.path]" responseTimeout="1800000">
+			<http:uri-params ><![CDATA[#[vars.uriParams default {}]]]></http:uri-params>
+			<http:query-params ><![CDATA[#[vars.queryParams default {}]]]></http:query-params>
+		</http:request>
+	</sub-flow>
+</mule>

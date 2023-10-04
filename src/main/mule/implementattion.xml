@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+
+
+	<flow name="consume-mindFlow" doc:id="6175c254-3b1f-4c1c-a7bd-41de4e7ecfa7" >
+		<jms:listener doc:name="On New Message" doc:id="917c107a-4656-4453-bf3b-9bf8faafe50b" config-ref="JMS_Config" destination="BillingId">
+			<jms:consumer-type >
+				<jms:queue-consumer />
+			</jms:consumer-type>
+			<jms:response outboundContentType="application/json" persistentDelivery="true" />
+		</jms:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="4545abfe-861e-4774-bc23-3f9c297a04ab" message="After consuming the payload from JMS Server, the payload is this ::::::: #[payload]"/>
+		<ee:transform doc:name="having the data which is coming from Consumer" doc:id="d5026a7e-0794-409c-812b-facdf9fe1da1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a2a289d5-12f9-4825-ae50-eaf6f0f3c957" message="Before sending the payload to DB-PAPI, the payload is this:::::: #[payload]"/>
+		<ee:transform doc:name="values of papi/db" doc:id="31be5e50-a00f-4c82-b591-a841b09e2c88" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="basepath" ><![CDATA["/api/papi"]]></ee:set-variable>
+				<ee:set-variable variableName="path" ><![CDATA["/db/accounts"]]></ee:set-variable>
+				<ee:set-variable variableName="port" ><![CDATA['${http.req.db.port}']]></ee:set-variable>
+				<ee:set-variable variableName="method" ><![CDATA["POST"]]></ee:set-variable>
+				<ee:set-variable variableName="host" ><![CDATA['${http.req.host}']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="calling to common HttpRequest" doc:id="115fea11-590a-4ba7-a5bb-f2567e428e76" name="common-HttpRequestSub_Flow"/>
+		<error-handler ref="error-framework-jms-Error_Handler" />
+	</flow>
+</mule>
